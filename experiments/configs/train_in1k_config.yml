@@ -50,6 +50,6 @@ train:
   val_downsample_masks: True
   val_iters: 10
   save_checkpoint_every_n_epochs: 5
-  checkpoint_dir: "<your ckpt dir>"
+  checkpoint_dir: 'checkpoints'
   checkpoint: null
   only_load_weights: True
