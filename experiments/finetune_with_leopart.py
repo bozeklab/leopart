@@ -44,7 +44,7 @@ def finetune_with_spatial_loss(_config, _run):
     # Setup logging
     neptune_logger = NeptuneLogger(
         api_key=api_key,
-        project_name="mkuuwauujinga/spatial-loss",
+        project_name="piotr-m-wojcik/spatial-loss",
         experiment_name=_run.experiment_info["name"],
         params=pd.json_normalize(_config).to_dict(orient='records')[0],
         tags=_config["tags"].split(','),
