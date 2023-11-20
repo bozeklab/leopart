@@ -16,7 +16,7 @@ data:
   nmb_samples: [2, 4]
   size_crops_val: 448 # Crops size for validation and seg maps viz
   num_classes_val: 21
-  voc_data_path: "/data/pwojcik/
+  voc_data_path: "/data/pwojcik/"
 
 train:
   use_teacher: True
