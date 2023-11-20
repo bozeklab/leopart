@@ -5,7 +5,7 @@ gpus: 2
 tags: "leopart"
 
 data:
-  data_dir: "<your imagenet root dir>"
+  data_dir: "/data/pwojcik/ILSVRC/ImageSets/CLS-LOC/"
   dataset_name: "imagenet100k" # coco, imagenet100k or voc
   size_crops: [224, 96]
   jitter_strength: 1.0
