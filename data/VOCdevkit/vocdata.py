@@ -32,7 +32,7 @@ class VOCDataModule(pl.LightningDataModule):
         If return_masks is set train_image_transform should be callable with imgs and masks or None.
         """
         super().__init__()
-        self.root = os.path.join(data_dir, "VOCSegmentation")
+        self.root = os.path.join(data_dir, "SegmentationClass")
         self.train_split = train_split
         self.val_split = val_split
         self.batch_size = batch_size
