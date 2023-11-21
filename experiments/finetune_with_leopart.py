@@ -78,7 +78,6 @@ def finetune_with_spatial_loss(_config, _run):
     voc_data_module = PanNukeVOCDataModule(batch_size=train_config["batch_size"],
                                            num_workers=_config["num_workers"],
                                            data_dir=data_config["voc_data_path"],
-                                           train_image_transform=train_transforms,
                                            val_image_transform=val_image_transforms,
                                            val_target_transform=val_target_transforms)
 
