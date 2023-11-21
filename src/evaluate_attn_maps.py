@@ -2,6 +2,7 @@ import numpy as np
 import os
 import torch
 import torch.nn as nn
+import Path
 import pytorch_lightning as pl
 
 from data.VOCdevkit.vocdata import PanNukeVOCDataset
@@ -26,8 +27,7 @@ class EvaluateAttnMaps(pl.callbacks.Callback):
         target_transforms = Compose([Resize((train_input_height, train_input_height),
                                             interpolation=InterpolationMode.NEAREST),
                                      ToTensor()])
-        self.dataset = PanNukeVOCDataset(root=Path(voc_root),
-                                         transform=image_transforms, target_transform=target_transforms)
+        self.dataset = PanNukeVOCDataset(root=voc_root, transform=image_transforms, target_transform=target_transforms)
         self.loader = DataLoader(self.dataset, batch_size=attn_batch_size, shuffle=False, num_workers=num_workers,
                                  drop_last=True, pin_memory=True)
         self.threshold = threshold
