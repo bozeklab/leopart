@@ -13,7 +13,7 @@ from torchvision.transforms.functional import InterpolationMode
 
 from data.coco.coco_data_module import CocoDataModule
 from data.imagenet.imagenet_data_module import ImageNetDataModule
-from data.VOCdevkit.vocdata import VOCDataModule, TrainXVOCValDataModule
+from data.VOCdevkit.vocdata import PanNukeVOCDataModule, TrainXVOCValDataModule
 from experiments.utils import get_backbone_weights
 from src.leopart import Leopart
 from src.leopart_transforms import LeopartTransforms
@@ -75,14 +75,12 @@ def finetune_with_spatial_loss(_config, _run):
                                     Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
     val_target_transforms = Compose([Resize((val_size, val_size), interpolation=InterpolationMode.NEAREST),
                                      ToTensor()])
-    voc_data_module = VOCDataModule(batch_size=train_config["batch_size"],
-                                    num_workers=_config["num_workers"],
-                                    train_split="trainaug",
-                                    val_split="val",
-                                    data_dir=data_config["voc_data_path"],
-                                    train_image_transform=train_transforms,
-                                    val_image_transform=val_image_transforms,
-                                    val_target_transform=val_target_transforms)
+    voc_data_module = PanNukeVOCDataModule(batch_size=train_config["batch_size"],
+                                           num_workers=_config["num_workers"],
+                                           data_dir=data_config["voc_data_path"],
+                                           train_image_transform=train_transforms,
+                                           val_image_transform=val_image_transforms,
+                                           val_target_transform=val_target_transforms)
 
     # Setup train data
     if dataset_name == "coco":

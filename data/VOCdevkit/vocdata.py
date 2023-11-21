@@ -17,8 +17,6 @@ class VOCDataModule(pl.LightningDataModule):
 
     def __init__(self,
                  data_dir: str,
-                 train_split: str,
-                 val_split: str,
                  train_image_transform: Optional[Callable],
                  val_image_transform: Optional[Callable],
                  val_target_transform: Optional[Callable],
@@ -37,7 +35,6 @@ class VOCDataModule(pl.LightningDataModule):
         self.val_split = val_split
         self.batch_size = batch_size
         self.num_workers = num_workers
-        self.train_image_transform = train_image_transform
         self.val_image_transform = val_image_transform
         self.val_target_transform = val_target_transform
         self.shuffle = shuffle
@@ -69,6 +66,51 @@ class VOCDataModule(pl.LightningDataModule):
     def val_dataloader(self):
         return DataLoader(self.voc_val, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers,
                           drop_last=self.drop_last, pin_memory=True)
+
+
+class PanNukeVOCDataModule(pl.LightningDataModule):
+
+    CLASS_IDX_TO_NAME = ['background', 'neoplastic', 'inflammatory', 'connective', 'dead', 'epithelial']
+
+    def __init__(self,
+                 data_dir: str,
+                 val_image_transform: Optional[Callable],
+                 val_target_transform: Optional[Callable],
+                 batch_size: int,
+                 num_workers: int,
+                 shuffle: bool = True,
+                 return_masks: bool = False,
+                 drop_last: bool = True):
+        """
+        Data module for PVOC data. "trainaug" and "train" are valid train_splits.
+        If return_masks is set train_image_transform should be callable with imgs and masks or None.
+        """
+        super().__init__()
+        self.root = os.path.join(data_dir, "PanNukeVOC")
+        self.batch_size = batch_size
+        self.num_workers = num_workers
+        self.val_image_transform = val_image_transform
+        self.val_target_transform = val_target_transform
+        self.shuffle = shuffle
+        self.drop_last = drop_last
+        self.return_masks = return_masks
+
+        # Set up datasets in __init__ as we need to know the number of samples to init cosine lr schedules
+        self.voc_val = PanNukeVOCDataset(root=self.root, transform=val_image_transform, target_transform=val_target_transform)
+
+    def __len__(self):
+        return len(self.voc_train)
+
+    def class_id_to_name(self, i: int):
+        return self.CLASS_IDX_TO_NAME[i]
+
+    def setup(self, stage: Optional[str] = None):
+        print(f"Val size {len(self.voc_val)}")
+
+    def val_dataloader(self):
+        return DataLoader(self.voc_val, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers,
+                          drop_last=self.drop_last, pin_memory=True)
+
 
 
 class TrainXVOCValDataModule(pl.LightningDataModule):
