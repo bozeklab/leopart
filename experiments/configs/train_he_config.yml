@@ -47,7 +47,7 @@ train:
   epsilon: 0.05
   fast_dev_run: False
   num_clusters_kmeans_miou: [500, 300, 21]
-  val_downsample_masks: True
+  val_downsample_masks: False
   val_iters: 10
   save_checkpoint_every_n_epochs: 5
   checkpoint_dir: 'checkpoints'
