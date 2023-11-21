@@ -14,7 +14,7 @@ CMAP = {
 }
 
 
-class RGBImageToTensor(transforms.Transform):
+class RGBImageToTensor(object):
     def __init__(self, color_map=CMAP):
         self.color_map = color_map
 
