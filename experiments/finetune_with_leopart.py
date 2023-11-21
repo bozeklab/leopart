@@ -16,6 +16,7 @@ from data.imagenet.imagenet_data_module import ImageNetDataModule
 from data.VOCdevkit.vocdata import PanNukeVOCDataModule, TrainXVOCValDataModule
 from experiments.utils import get_backbone_weights
 from src.leopart import Leopart
+from src.custom_transforms import RGBImageToTensor
 from src.leopart_transforms import LeopartTransforms
 from src.evaluate_attn_maps import EvaluateAttnMaps
 
@@ -74,7 +75,7 @@ def finetune_with_spatial_loss(_config, _run):
                                     ToTensor(),
                                     Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
     val_target_transforms = Compose([Resize((val_size, val_size), interpolation=InterpolationMode.NEAREST),
-                                     ToTensor()])
+                                     RGBImageToTensor()])
     voc_data_module = PanNukeVOCDataModule(batch_size=train_config["batch_size"],
                                            num_workers=_config["num_workers"],
                                            data_dir=data_config["voc_data_path"],

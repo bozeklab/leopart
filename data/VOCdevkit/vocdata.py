@@ -111,7 +111,6 @@ class PanNukeVOCDataModule(pl.LightningDataModule):
                           drop_last=self.drop_last, pin_memory=True)
 
 
-
 class TrainXVOCValDataModule(pl.LightningDataModule):
     # wrapper class to allow for training on a different data set
 

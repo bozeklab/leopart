@@ -6,6 +6,7 @@ import pytorch_lightning as pl
 
 from data.VOCdevkit.vocdata import PanNukeVOCDataset
 from torch.utils.data import DataLoader
+from src.custom_transforms import RGBImageToTensor
 from torchvision.transforms import Compose, Resize, ToTensor, Normalize, GaussianBlur
 from torchvision.transforms.functional import InterpolationMode
 from skimage.measure import label
@@ -25,7 +26,7 @@ class EvaluateAttnMaps(pl.callbacks.Callback):
                                     Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
         target_transforms = Compose([Resize((train_input_height, train_input_height),
                                             interpolation=InterpolationMode.NEAREST),
-                                     ToTensor()])
+                                     RGBImageToTensor()])
         self.dataset = PanNukeVOCDataset(root=voc_root, transform=image_transforms, target_transform=target_transforms)
         self.loader = DataLoader(self.dataset, batch_size=attn_batch_size, shuffle=False, num_workers=num_workers,
                                  drop_last=True, pin_memory=True)
