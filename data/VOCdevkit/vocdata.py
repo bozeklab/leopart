@@ -86,7 +86,6 @@ class PanNukeVOCDataModule(pl.LightningDataModule):
         If return_masks is set train_image_transform should be callable with imgs and masks or None.
         """
         super().__init__()
-        self.root = data_dir
         self.batch_size = batch_size
         self.num_workers = num_workers
         self.val_image_transform = val_image_transform
@@ -96,7 +95,7 @@ class PanNukeVOCDataModule(pl.LightningDataModule):
         self.return_masks = return_masks
 
         # Set up datasets in __init__ as we need to know the number of samples to init cosine lr schedules
-        self.voc_val = PanNukeVOCDataset(root=self.root, transform=val_image_transform, target_transform=val_target_transform)
+        self.voc_val = PanNukeVOCDataset(root=data_dir, transform=val_image_transform, target_transform=val_target_transform)
 
     def __len__(self):
         return len(self.voc_train)

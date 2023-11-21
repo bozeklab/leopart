@@ -26,7 +26,7 @@ class EvaluateAttnMaps(pl.callbacks.Callback):
         target_transforms = Compose([Resize((train_input_height, train_input_height),
                                             interpolation=InterpolationMode.NEAREST),
                                      ToTensor()])
-        self.dataset = PanNukeVOCDataset(root=os.path.join(voc_root, "PanNukeVOC"),
+        self.dataset = PanNukeVOCDataset(root=os.path.join(voc_root),
                                          transform=image_transforms, target_transform=target_transforms)
         self.loader = DataLoader(self.dataset, batch_size=attn_batch_size, shuffle=False, num_workers=num_workers,
                                  drop_last=True, pin_memory=True)
