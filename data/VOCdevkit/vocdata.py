@@ -86,7 +86,7 @@ class PanNukeVOCDataModule(pl.LightningDataModule):
         If return_masks is set train_image_transform should be callable with imgs and masks or None.
         """
         super().__init__()
-        self.root = os.path.join(data_dir, "PanNukeVOC")
+        self.root = data_dir
         self.batch_size = batch_size
         self.num_workers = num_workers
         self.val_image_transform = val_image_transform
