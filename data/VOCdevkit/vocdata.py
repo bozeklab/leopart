@@ -112,8 +112,10 @@ class PanNukeVOCDataset(VisionDataset):
         if not os.path.isdir(seg_dir) or not os.path.isdir(image_dir) or not os.path.isdir(root):
             raise RuntimeError('Dataset not found or corrupted.')
 
-        self.images = self._list_png_files(image_dir)
-        self.masks = self._list_png_files(seg_dir)
+        file_names = self._list_png_files(image_dir)
+
+        self.images = [os.path.join(image_dir, x) for x in file_names]
+        self.masks = [os.path.join(seg_folder, x) for x in file_names]
         self.return_masks = return_masks
 
         assert all([Path(f).is_file() for f in self.masks]) and all([Path(f).is_file() for f in self.images])
