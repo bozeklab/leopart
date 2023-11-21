@@ -2,7 +2,6 @@ import numpy as np
 import os
 import torch
 import torch.nn as nn
-import Path
 import pytorch_lightning as pl
 
 from data.VOCdevkit.vocdata import PanNukeVOCDataset
