@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import pytorch_lightning as pl
 
-from data.VOCdevkit.vocdata import VOCDataset
+from data.VOCdevkit.vocdata import PanNukeVOCDataset
 from torch.utils.data import DataLoader
 from torchvision.transforms import Compose, Resize, ToTensor, Normalize, GaussianBlur
 from torchvision.transforms.functional import InterpolationMode
@@ -26,8 +26,8 @@ class EvaluateAttnMaps(pl.callbacks.Callback):
         target_transforms = Compose([Resize((train_input_height, train_input_height),
                                             interpolation=InterpolationMode.NEAREST),
                                      ToTensor()])
-        self.dataset = VOCDataset(root=os.path.join(voc_root, "VOCSegmentation"), image_set="val",
-                                  transform=image_transforms, target_transform=target_transforms)
+        self.dataset = PanNukeVOCDataset(root=os.path.join(voc_root, "PanNukeVOC"),
+                                         transform=image_transforms, target_transform=target_transforms)
         self.loader = DataLoader(self.dataset, batch_size=attn_batch_size, shuffle=False, num_workers=num_workers,
                                  drop_last=True, pin_memory=True)
         self.threshold = threshold
@@ -35,7 +35,7 @@ class EvaluateAttnMaps(pl.callbacks.Callback):
     def on_validation_start(self, trainer: pl.Trainer, pl_module: pl.LightningModule):
         # Evaluate attention maps.
         if pl_module.global_rank == 0 and pl_module.local_rank == 0:
-            print("\n" + "#" * 20 + "Evaluating attention maps on VOC2012 with threshold: " +
+            print("\n" + "#" * 20 + "Evaluating attention maps on PanNukeVOC2012 with threshold: " +
                   str(self.threshold) + "#" * 20)
             jacs_merged_attn = 0
             jacs_all_heads = 0

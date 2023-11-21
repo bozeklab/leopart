@@ -96,6 +96,48 @@ class TrainXVOCValDataModule(pl.LightningDataModule):
         return self.val_datamodule.val_dataloader()
 
 
+class PanNukeVOCDataset(VisionDataset):
+    def __init__(
+            self,
+            root: str,
+            transform: Optional[Callable] = None,
+            target_transform: Optional[Callable] = None,
+            transforms: Optional[Callable] = None,
+            return_masks: bool = False
+    ):
+        super(PanNukeVOCDataset, self).__init__(root, transforms, transform, target_transform)
+        seg_folder = 'Masks'
+        seg_dir = os.path.join(root, seg_folder)
+        image_dir = os.path.join(root, 'Images')
+        if not os.path.isdir(seg_dir) or not os.path.isdir(image_dir) or not os.path.isdir(root):
+            raise RuntimeError('Dataset not found or corrupted.')
+
+        self.images = self._list_png_files(image_dir)
+        self.masks = self._list_png_files(seg_dir)
+        self.return_masks = return_masks
+
+        assert all([Path(f).is_file() for f in self.masks]) and all([Path(f).is_file() for f in self.images])
+
+    def _list_png_files(self, folder_path):
+        # Get a list of all files in the specified folder
+        files = os.listdir(folder_path)
+
+        # Filter the list to include only PNG files
+        png_files = [file for file in files if file.lower().endswith('.png')]
+
+        return png_files
+
+    def __getitem__(self, index: int) -> Tuple[Any, Any]:
+        img = Image.open(self.images[index]).convert('RGB')
+        mask = Image.open(self.masks[index])
+        if self.transforms:
+            img, mask = self.transforms(img, mask)
+        return img, mask
+
+    def __len__(self) -> int:
+        return len(self.images)
+
+
 class VOCDataset(VisionDataset):
 
     def __init__(
