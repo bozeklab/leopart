@@ -104,12 +104,11 @@ def finetune_with_spatial_loss(_config, _run):
     elif dataset_name == 'imagenet':
         num_images = 1000
         data_dir = os.path.join(data_dir, 'positive')
-        assert len(class_names) == 1000
         train_data_module = HEDataModule(train_transforms=train_transforms,
-                                               batch_size=train_config["batch_size"],
-                                               num_workers=_config["num_workers"],
-                                               data_dir=data_dir,
-                                               num_images=num_images)
+                                         batch_size=train_config["batch_size"],
+                                         num_workers=_config["num_workers"],
+                                         data_dir=data_dir,
+                                         num_images=num_images)
     elif dataset_name == 'voc':
         train_data_module = voc_data_module
     else:
