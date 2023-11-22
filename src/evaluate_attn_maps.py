@@ -89,7 +89,7 @@ class EvaluateAttnMaps(pl.callbacks.Callback):
         for k, map in enumerate(maps):
             jac = 0
             objects = np.unique(map)
-            objects = np.delete(objects, [0, -1])
+            objects = np.delete(objects, [-1])
             for o in objects:
                 masko = map == o
                 intersection = masko * th_attn[k]

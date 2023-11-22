@@ -457,7 +457,7 @@ class Leopart(pl.LightningModule):
                 if self.val_downsample_masks:
                     size_masks = 100
                     gt = nn.functional.interpolate(gt, size=(size_masks, size_masks), mode='nearest')
-                valid = (gt != 255)  # mask to remove object boundary class
+                valid = gt #= (gt != 255)  # mask to remove object boundary class
 
                 # Get backbone embeddings
                 backbone_embeddings = self.model.forward_backbone(imgs)[:, 1:]
