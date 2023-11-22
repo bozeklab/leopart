@@ -183,8 +183,7 @@ def evaluate_clustering(k: int, seed: int, split: str, experiment_folder: str, s
         metric = PredsmIoU(k + 1, 21)
     else:
         metric = PredsmIoU(k, 21)
-    metric.update(gt, cluster_preds)
-    #metric.update(gt[gt != 255], cluster_preds[gt != 255])
+    metric.update(gt[gt != 275], cluster_preds[gt != 275])
     many_to_one = True
     precision_based = True
     if k == 21 or (k + 1 == 21 and used_mask):
@@ -383,7 +382,7 @@ def start_unsup_seg(patch_size: int, arch: str, ckpt_path: str, experiment_name:
                                                  f"cd_{k_community}_{i}_{split_cd}_{weight_threshold}_{markov_time}.pt"))
         # calculate mIoU
 
-        merged_clusters_flat = merged_clusters #merged_clusters[gt != 255]
+        merged_clusters_flat = merged_clusters[gt != 275]
         merged_clusters_flat = merged_clusters[gt != 275]
         gt_wo_boundary = gt[gt != 275]
         assert merged_clusters_flat.size(0) == gt_wo_boundary.size(0)
