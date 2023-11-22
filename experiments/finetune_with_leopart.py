@@ -105,7 +105,7 @@ def finetune_with_spatial_loss(_config, _run):
         num_images = 1000
         data_dir = os.path.join(data_dir, 'positive')
         assert len(class_names) == 1000
-        train_data_module = HeDataModule(train_transforms=train_transforms,
+        train_data_module = HEDataModule(train_transforms=train_transforms,
                                                batch_size=train_config["batch_size"],
                                                num_workers=_config["num_workers"],
                                                data_dir=data_dir,
