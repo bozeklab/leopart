@@ -12,7 +12,7 @@ from torchvision.transforms import ToTensor, Compose, Resize, Normalize
 from torchvision.transforms.functional import InterpolationMode
 
 from data.coco.coco_data_module import CocoDataModule
-from data.imagenet.imagenet_data_module import ImageNetDataModule
+from data.imagenet.he_images import HeDataModule
 from data.VOCdevkit.vocdata import PanNukeVOCDataModule, TrainXVOCValDataModule
 from experiments.utils import get_backbone_weights
 from src.leopart import Leopart
@@ -102,13 +102,11 @@ def finetune_with_spatial_loss(_config, _run):
                                                data_dir=os.path.join(data_dir, "train"),
                                                num_images=num_images)
     elif dataset_name == 'imagenet':
-        num_images = 1281167
-        data_dir = os.path.join(data_dir, "train")
-        class_names = os.listdir(data_dir)
+        num_images = 1000
+        data_dir = os.path.join(data_dir, 'positive')
         assert len(class_names) == 1000
-        train_data_module = ImageNetDataModule(train_transforms=train_transforms,
+        train_data_module = HeDataModule(train_transforms=train_transforms,
                                                batch_size=train_config["batch_size"],
-                                               class_names=class_names,
                                                num_workers=_config["num_workers"],
                                                data_dir=data_dir,
                                                num_images=num_images)
