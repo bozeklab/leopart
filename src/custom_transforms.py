@@ -1,6 +1,7 @@
 import torch
 from torchvision import transforms
 from PIL import Image
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -33,3 +34,5 @@ class RGBImageToTensor(object):
         float_tensor = torch.from_numpy(tensor_2d).float() / float(len(self.color_map) - 1)
 
         return float_tensor.unsqueeze(0)
+
+
