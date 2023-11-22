@@ -35,7 +35,7 @@ class HEDataModule(pl.LightningDataModule):
         files = os.listdir(data_dir)
 
         # Filter the list to include only PNG files
-        instances = [file for file in files if file.lower().endswith('.png')]
+        instances = [os.path.join(data_dir, file) for file in files if file.lower().endswith('.png')]
 
         return instances
 
