@@ -153,8 +153,8 @@ class PanNukeVOCDataset(VisionDataset):
 
         file_names = self._list_png_files(image_dir)
 
-        self.images = [os.path.join(image_dir, x) for x in file_names]
-        self.masks = [os.path.join(seg_dir, x) for x in file_names]
+        self.images = [os.path.join(image_dir, x) for x in file_names][:200]
+        self.masks = [os.path.join(seg_dir, x) for x in file_names][:200]
         self.return_masks = return_masks
 
         assert all([Path(f).is_file() for f in self.masks]) and all([Path(f).is_file() for f in self.images])
