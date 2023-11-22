@@ -1,6 +1,6 @@
 # exp4
-num_workers: 20
-gpus: 2
+num_workers: 6
+gpus: 4
 
 tags: "leopart"
 
