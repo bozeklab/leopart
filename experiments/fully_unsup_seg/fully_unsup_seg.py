@@ -183,7 +183,7 @@ def evaluate_clustering(k: int, seed: int, split: str, experiment_folder: str, s
         metric = PredsmIoU(k + 1, 21)
     else:
         metric = PredsmIoU(k, 21)
-    metric.update(gt[gt], cluster_preds[gt])
+    metric.update(gt, cluster_preds)
     #metric.update(gt[gt != 255], cluster_preds[gt != 255])
     many_to_one = True
     precision_based = True
@@ -382,9 +382,10 @@ def start_unsup_seg(patch_size: int, arch: str, ckpt_path: str, experiment_name:
         torch.save(merged_clusters, os.path.join(experiment_folder,
                                                  f"cd_{k_community}_{i}_{split_cd}_{weight_threshold}_{markov_time}.pt"))
         # calculate mIoU
+
         merged_clusters_flat = merged_clusters #merged_clusters[gt != 255]
-        gt_wo_boundary = gt
-        #gt_wo_boundary = gt[gt != 255]
+        merged_clusters_flat = merged_clusters[gt != 275]
+        gt_wo_boundary = gt[gt != 275]
         assert merged_clusters_flat.size(0) == gt_wo_boundary.size(0)
         preds_miou_protos_clus = PredsmIoU(num_objects_pvoc + 1, num_objects_pvoc + 1)
         preds_miou_protos_clus.update(gt_wo_boundary, merged_clusters_flat)

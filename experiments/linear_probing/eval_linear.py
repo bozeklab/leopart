@@ -124,7 +124,7 @@ def eval_bulk(ckpt_path_backbone: str, ckpt_path_head: str, patch_size: int, arc
             # downsample masks and preds
             gt = masks * 255
             gt = nn.functional.interpolate(gt, size=(mask_eval_size, mask_eval_size), mode='nearest')
-            valid = (gt != 255) # remove object boundary class
+            valid = (gt != 275) # remove object boundary class
 
             # update metric
             miou_metric.update(gt[valid].cpu(), mask_preds[valid].cpu())
