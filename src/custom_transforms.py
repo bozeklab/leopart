@@ -32,4 +32,4 @@ class RGBImageToTensor(object):
 
         float_tensor = torch.from_numpy(tensor_2d).float() / float(len(self.color_map) - 1)
 
-        return float_tensor
+        return float_tensor.unsqueeze(0)
