@@ -12,7 +12,7 @@ from torchvision.transforms import ToTensor, Compose, Resize, Normalize
 from torchvision.transforms.functional import InterpolationMode
 
 from data.coco.coco_data_module import CocoDataModule
-from data.he_images import HEDataModule
+from data.he_images.he_data_module import HEDataModule
 from data.VOCdevkit.vocdata import PanNukeVOCDataModule, TrainXVOCValDataModule
 from experiments.utils import get_backbone_weights
 from src.leopart import Leopart
